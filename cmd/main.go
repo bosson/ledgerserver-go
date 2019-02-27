@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/bosson/ledgerserver"
 	"github.com/bosson/ledgerserver/pkg/api"
-	"github.com/goadapp/goad/version"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -65,7 +65,7 @@ func main() {
 
 	log.WithFields(log.Fields{
 		"service": "ledgerserver",
-		"version": version.Version,
+		"version": ledgerserver.Version,
 	})
 
 	// stats.FromEnv("ledgerserver")

@@ -37,17 +37,17 @@ dep: ## Get the dependencies
 	@go get -v -d ./...
 
 generate: ## Run generators
-	@go generate pkg/version/version.go
+	@go generate version.go
 	@go generate
 
 build: generate ## Build the binary file
-	CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o ${NAME} ./cmd/main
+	CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o "${NAME}" ./cmd/main.go
 
 build_linux_amd64: generate ## Build for linux amd64
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o ${NAME}-linux-amd64 ./cmd/main
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o "${NAME}-linux-amd64" ./cmd/main.go
 
 build_all: generate build_linux_amd64 ## Build for all supported platforms
-	CC=o64-clang CXX=o64-clang++ GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o ${NAME}-darwin-amd64 ./cmd/main
+	CC=o64-clang CXX=o64-clang++ GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o ${NAME}-darwin-amd64 ./cmd/main.go
 
 # gcr_login: get_tools ## Login to gcr.io
 # 	docker-credential-gcr configure-docker
@@ -65,7 +65,7 @@ run: build # Build and run the code
 	./ledgerserver
 
 clean: ## Remove previous build
-	@sh -c "sed -i \"s/const Version = \\\".*\\\"/const Version = \\\"\\\"/\" pkg/version/version.go"
+	@sh -c "sed -i \"s/const Version = \\\".*\\\"/const Version = \\\"\\\"/\" version.go"
 	@rm -Rf .cache 2>/dev/null || true
 	@rm -Rf .keys 2>/dev/null || true
 	@rm idp.db 2>/dev/null || true
