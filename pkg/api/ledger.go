@@ -129,6 +129,8 @@ func readAndInsert(f string, newlines []string) ([]string, error) {
 	}
 	defer file.Close()
 
+	insertDone := false
+
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
@@ -138,6 +140,7 @@ func readAndInsert(f string, newlines []string) ([]string, error) {
 			for _, l := range newlines {
 				lines = append(lines, l)
 			}
+			insertDone = true
 		}
 
 		lines = append(lines, line)
@@ -145,6 +148,10 @@ func readAndInsert(f string, newlines []string) ([]string, error) {
 
 	if scanner.Err() != nil {
 		return nil, scanner.Err()
+	}
+
+	if insertDone == false {
+		return nil, errors.New("missing insert marker in source file: " + f)
 	}
 
 	return lines, nil
