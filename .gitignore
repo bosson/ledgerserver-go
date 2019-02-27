@@ -1,0 +1,11 @@
+
+.env
+.vscode
+*.iml
+*.key
+.test
+*.db
+.cache
+.keys
+*.test
+coverage.html
