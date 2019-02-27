@@ -5,7 +5,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/bosson/ledgerserver"
+	"github.com/bosson/ledgerserver-go"
 	"github.com/julienschmidt/httprouter"
 
 	"net/http"

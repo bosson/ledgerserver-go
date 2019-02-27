@@ -3,4 +3,4 @@
 package ledgerserver
 
 // Version git version number
-const Version = "1f52fd9b4446"
+const Version = "5e0abf17d24c"

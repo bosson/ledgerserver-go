@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/bosson/ledgerserver"
-	"github.com/bosson/ledgerserver/pkg/api"
+	"github.com/bosson/ledgerserver-go"
+	"github.com/bosson/ledgerserver-go/pkg/api"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"

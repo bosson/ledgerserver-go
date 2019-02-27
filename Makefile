@@ -1,11 +1,11 @@
-PROJECT_NAME := "ledgerserver"
+PROJECT_NAME := "ledgerserver-go"
 PKG := "github.com/bosson/$(PROJECT_NAME)"
 VERSION := $(shell git describe --always --abbrev=12)
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/ )
 PKG_API_FILES1 := $(shell ls pkg/api/*.go | grep -v _test.go | grep -v data.go)
 PKG_API_FILES2 := $(shell ls *.go | grep -v _test.go)
 
-DOCKER_NAME := gcr.io/bosson/ledgerserver
+DOCKER_NAME := gcr.io/bosson/ledgerserver-go
 
 .PHONY: all dep build clean test coverage coverhtml lint
 

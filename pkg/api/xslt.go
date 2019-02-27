@@ -12,7 +12,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// Static returns files stored in bindata.go
+// Tranform XML using XSLT.
+// Not implemented yet.
+//
 func XSLT(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	var path = r.URL.Path
