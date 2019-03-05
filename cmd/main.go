@@ -27,7 +27,7 @@ func main() {
 	viper.SetDefault("log_level", "debug")
 	viper.SetDefault("prod", false)
 	viper.SetDefault("addr", ":9000")
-	viper.SetDefault("base", "http://localhost:6502")
+	viper.SetDefault("base", "http://localhost:9000")
 	viper.SetDefault("cryptoprovider", "file")
 	viper.SetDefault("gorm_dialect", "sqlite3")
 	viper.SetDefault("gorm_options", "file:./ledger.db?cache=shared")
@@ -78,7 +78,7 @@ func main() {
 		Timeout: time.Duration(15) * time.Second,
 		Server: &http.Server{
 			Addr:        addr,
-			Handler:     loadHandler(),
+			Handler:     LoadHandler(),
 			ReadTimeout: time.Duration(10) * time.Second,
 			// ErrorLog:    log.Logger,
 		},
@@ -93,24 +93,25 @@ func main() {
 var w *io.PipeWriter
 var db *gorm.DB
 
-func loadHandler() http.Handler {
+// LoadHandler setup api endpoints and wire controllers
+func LoadHandler() http.Handler {
 
 	// prod := viper.GetBool("prod")
 	r := httprouter.New()
 
-	var err error
-	if db == nil {
-		db, err = gorm.Open(viper.GetString("gorm_dialect"), viper.GetString("gorm_options"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		if viper.GetBool("gorm_debug") {
-			db.LogMode(true)
-		}
-		// db.SetLogger(log.New(w, "database", 0))
-		db.DB().SetMaxIdleConns(1)
-		db.DB().SetMaxOpenConns(5)
-	}
+	// var err error
+	// if db == nil {
+	//	db, err = gorm.Open(viper.GetString("gorm_dialect"), viper.GetString("gorm_options"))
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//	if viper.GetBool("gorm_debug") == true {
+	//		db.LogMode(true)
+	//	}
+	// db.SetLogger(log.New(w, "database", 0))
+	//	db.DB().SetMaxIdleConns(1)
+	//	db.DB().SetMaxOpenConns(5)
+	// }
 
 	r.GET("/", api.Version)
 	r.GET("/health", api.Version)

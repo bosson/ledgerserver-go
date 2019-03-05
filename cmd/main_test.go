@@ -5,12 +5,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"runtime"
 	"testing"
 	"time"
 
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/tylerb/graceful"
 
@@ -25,25 +22,23 @@ func TestMain(m *testing.M) {
 	_ = godotenv.Load(".env.test")
 	viper.AutomaticEnv()
 
-	viper.SetDefault("gorm_debug", true)
+	// viper.SetDefault("gorm_debug", true)
+	// runtime.GOMAXPROCS(1) // this is required when using an inmem sqlite db
+	// var err error
+	// db, err = gorm.Open("sqlite3", ".test.db")
+	// defer os.Remove(".test.db")
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	runtime.GOMAXPROCS(1) // this is required when using an inmem sqlite db
-
-	var err error
-	db, err = gorm.Open("sqlite3", ".test.db")
-	defer os.Remove(".test.db")
-	if err != nil {
-		panic(err)
-	}
-
-	viper.SetDefault("addr", ":9900")
+	viper.SetDefault("addr", ":9001")
 	addr := viper.GetString("addr")
 
 	server := &graceful.Server{
 		Timeout: time.Duration(15) * time.Second,
 		Server: &http.Server{
 			Addr:        addr,
-			Handler:     loadHandler(),
+			Handler:     LoadHandler(),
 			ReadTimeout: time.Duration(10) * time.Second,
 			// ErrorLog:    log.Logger,
 		},
@@ -55,6 +50,8 @@ func TestMain(m *testing.M) {
 	}
 
 	m.Run()
+
+	server.Close()
 }
 
 func TestPing(t *testing.T) {
@@ -76,7 +73,7 @@ func TestPing(t *testing.T) {
 	// 	t.Fatal(err)
 	// }
 
-	t.Logf("Client: %#v", string(body))
+	t.Logf("Version: %#v", string(body))
 
 }
 

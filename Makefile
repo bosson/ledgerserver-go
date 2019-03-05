@@ -1,4 +1,5 @@
-PROJECT_NAME := "ledgerserver-go"
+NAME := ledgerserver
+PROJECT_NAME := ledgerserver-go
 PKG := "github.com/bosson/$(PROJECT_NAME)"
 VERSION := $(shell git describe --always --abbrev=12)
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/ )
