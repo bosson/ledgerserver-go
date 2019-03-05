@@ -42,10 +42,10 @@ generate: ## Run generators
 	@go generate
 
 build: generate ## Build the binary file
-	CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o "${NAME}" ./cmd/main.go
+	go build -tags netgo -o "${NAME}" ./cmd/main.go
 
-build_linux_amd64: generate ## Build for linux amd64
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o "${NAME}-linux-amd64" ./cmd/main.go
+#build_linux_amd64: generate ## Build for linux amd64
+#	GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build -tags netgo --ldflags '-extldflags "-static"' -o "${NAME}-linux-amd64" ./cmd/main.go
 
 build_all: generate build_linux_amd64 ## Build for all supported platforms
 	CC=o64-clang CXX=o64-clang++ GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build -o ${NAME}-darwin-amd64 ./cmd/main.go
